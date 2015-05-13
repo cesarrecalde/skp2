@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+
+{% block cuerpo %}
+    <section id="main" class="column">
+        <article class="module width_full">
+            <header><h3>Modificar User Story</h3></header>
+            <div class="module_content">
+                <div class="tab_container">
+                    <div id="tab1" class="tab_content">
+                        <table class="tablesorter" cellspacing="0"> 
+                            <form id="formulario" method="post" action="">
+                            	{% csrf_token %}
+        						<table class="table">
+        							<p>{{ formulario }}</p>
+                                    <p>{{ formulario.Valor_tecnico.value}}</p>
+        						</table>
+        						<p>
+                                    <input class="btn btn-default" type="submit" value="Confirmar">
+                                    <a href="javascript:history.go(-2)">Cancelar</a>
+                                </p>
+
+    						</form>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock cuerpo %}

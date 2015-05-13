@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block cuerpo %}
+    <section id="main" class="column">
+        <article class="module width_full">
+            <header><h3>Eliminar sprint</h3></header>
+            <div class="module_content">
+                <div class="tab_container">
+                    <div id="tab1" class="tab_content">
+                        <form id="formulario" method="post" action="">
+                            {% csrf_token %}
+                            <table class="table"> 
+                                <p>{{formulario}}</p>
+                            </table>
+                            <p> <input class="btn btn-default" type="submit" value="Confirmar"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock cuerpo %}
+
+{% block contenido %}
+    
+
+{% endblock %}

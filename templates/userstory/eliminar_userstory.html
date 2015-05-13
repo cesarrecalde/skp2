@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block cuerpo %}
+    <section id="main" class="column">
+        <article class="module width_full">
+            <header><h3>Eliminar proyecto</h3></header>
+            <div class="module_content">
+                <div class="tab_container">
+                    <div id="tab1" class="tab_content">
+                        <form id="formulario" method="post" action="">
+                            <p>Eliminar us</p>
+                            <a href="{% url 'apps.userstory.views.eliminar_userstory' userstory.id%}">Eliminar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock cuerpo %}
+
+{% block contenido %}
+    
+
+{% endblock %}

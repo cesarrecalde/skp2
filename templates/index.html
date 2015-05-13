@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+{% block head %}
+	
+	<meta charset="utf-8"/>
+	<title>ScrumKanbanProject</title>
+	
+	<link rel="stylesheet" href="{{ STATIC_URL }}pagina_principal/css/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script src="{{ STATIC_URL }}pagina_principal/js/jquery-1.5.2.min.js" type="text/javascript"></script>
+	<script src="{{ STATIC_URL }}pagina_principal/js/hideshow.js" type="text/javascript"></script>
+	<script src="{{ STATIC_URL }}pagina_principal/js/jquery.tablesorter.min.js" type="text/javascript"></script>
+	<script src="{{ STATIC_URL }}pagina_principal/js/jquery.js"></script>
+    <script src="{{ STATIC_URL }}pagina_principal/js/bootstrap.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}pagina_principal/js/jquery.equalHeight.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() 
+    	{ 
+      	  $(".tablesorter").tablesorter(); 
+   	 } 
+	);
+	$(document).ready(function() {
+
+	//When page loads...
+	$(".tab_content").hide(); //Hide all content
+	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+	$(".tab_content:first").show(); //Show first tab content
+
+	//On Click Event
+	$("ul.tabs li").click(function() {
+
+		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".tab_content").hide(); //Hide all tab content
+
+		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		$(activeTab).fadeIn(); //Fade in the active ID content
+		return false;
+	});
+
+});
+    </script>
+    <script type="text/javascript">
+    $(function(){
+        $('.column').equalHeight();
+    });
+</script>
+{% endblock head %}
+</head>
+
+{% if user.is_authenticated %}
+<body>
+{% block body %}
+	
+	<header id="header">
+	{% block header %}
+		<hgroup>
+			<a href="/index/"><h2 class="section_title">Scrum Kanban Project</h2></a>
+			<div class="btn_view_site"><a href="{% url 'apps.usuario.views.cerrar_sesion' %}">Cerrar Sesion</a></div>
+		</hgroup>
+	{% endblock header %}
+	</header>
+	
+	<aside id="sidebar" class="column">
+	{% block aside %}
+		
+		<h3>Administrar Cuenta</h3>
+		<ul class="toggle">
+			<li class="icn_profile"><a href="{% url 'apps.usuario.views.detalle_usuario' user.id %}">Consultar Datos</a></li>
+			<li class="icn_edit_article"><a href="{% url 'apps.usuario.views.modificar_usuario' user.id %}" >Modificar Datos</a></li>
+			<li class="icn_security"><a href="http://127.0.0.1:8000/password/change">Cambiar Contraseña</a></li>
+		</ul>
+		<hr>
+		<h3>Administrar Sistema</h3>
+		<ul class="toggle">
+			<li class="icn_add_user"><a href="{% url 'apps.usuario.views.administrar_usuario' %}">Gestion de Usuarios</a></li>
+			<li class="icn_photo"><a href="{% url 'apps.roles.views.administrar_roles' %}">Gestion de Roles</a></li>
+			<li class="icn_folder"><a href="{% url 'apps.proyectos.views.gestion_de_proyectos' %}">Gestion de Proyectos</a></li>
+			<li class="icn_video"><a href="{% url 'apps.flujos.views.administrar_flujos' %}">Gestion de Tabla Kanban</a></li>
+			<li class="icn_jump_back"><a href="#">Enviar Mensaje</a></li>
+		</ul>
+		<hr>	
+		<h3>Acerca</h3>
+		<ul class="toggle">
+			<li class="icn_settings"><a href="{% url 'apps.usuario.views.index' %}">Nosotros</a></li>
+		</ul>
+		<hr>
+	{% endblock aside %}
+	</aside>
+	
+	<section id="main" class="column">
+		
+	{% block buscador %}
+		
+	{% endblock buscador %}
+
+	{% block mensaje %}
+		
+	{% endblock mensaje %}
+
+	{% block cuerpo %}		
+		<article class="module width_full">
+            <header>
+                <h3>tus proyectos </h3>
+            </header>
+			<div class="module_content">
+                <div class="tab_container">
+                    <div id="tab1" class="tab_content">
+                        <table class="tablesorter" cellspacing="0"> 
+                            <thead> 
+                                {% if proyectos|length > 0 %}
+                                    {% for proyecto in proyectos %}
+                                        {% if proyecto.pk > 0 %}
+                                            
+                                            {% for grupo in proyecto.Grupo_trabajo.all %}
+                                            	{% if grupo == usuario_actor%}
+                                            		<tr class="clickableRow" href='{% url "apps.mcp.views.detalle_mcp" proyecto.id %}'>
+                                            		<th>{{ proyecto.Nombre }}</th>
+                                            	{% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td class="warning">No hay proyectos de usuario registrados aun</td>
+                                {% endif %}
+                            </thead>                        
+                        </table>
+                    </div>
+                </div>
+            </div>  
+        </article>
+	{% endblock cuerpo %}
+	</section>
+
+{% endblock body %}
+</body>
+{% else %}
+    <h1>Usted no se encuentra logueado por favor inicie sesion</h1>
+{% endif %}
+
+</html>
